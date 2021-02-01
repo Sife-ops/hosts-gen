@@ -14,13 +14,17 @@ dist:
 	@rm -rf hosts-gen-${VERSION}
 
 install: all
-	@echo installing script to ${DESTDIR}${PREFIX}/bin
+	@echo installing script to ${DESTDIR}${PREFIX}bin
 	@mkdir -p ${DESTDIR}${PREFIX}/bin
 	@cp -f bin/hosts-gen ${DESTDIR}${PREFIX}/bin
 	@chmod 755 ${DESTDIR}${PREFIX}/bin/hosts-gen
-	@echo installing ${DESTDIR}${PREFIX}/etc/hosts.d
+	@echo installing ${DESTDIR}${PREFIX}etc/hosts-gen
+	@cp etc/hosts-gen ${DESTDIR}${PREFIX}/etc/hosts-gen
+	@echo installing ${DESTDIR}${PREFIX}etc/hosts.d
 	@mkdir -p ${DESTDIR}${PREFIX}/etc/hosts.d
 	@cp -R etc/hosts.d/* ${DESTDIR}${PREFIX}/etc/hosts.d
+#   @chmod 644 ${DESTDIR}${PREFIX}/etc/hosts-gen
+#   @chmod -R 644 ${DESTDIR}${PREFIX}/etc/hosts.d
 #	@echo installing manual page to ${DESTDIR}${MANPREFIX}/man1
 #	@mkdir -p ${DESTDIR}${MANPREFIX}/man1
 #	@sed "s/VERSION/${VERSION}/g" < st.1 > ${DESTDIR}${MANPREFIX}/man1/st.1
