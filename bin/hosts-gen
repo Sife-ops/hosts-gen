@@ -13,6 +13,7 @@ urls="${hostsdir}/urls"
 while IFS=' ' read -r url ident; do
     case "$url" in
         "#"*) : ;;
+        "") : ;;
         *) [ "${#startind}" -lt 10 ] && ind="0${startind}" || ind="${startind}"
             startind=$((startind+1))
             curl "$url" > "${hostsdir}/${ind}-hosts${ident:+.$ident}" ;;
