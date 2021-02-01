@@ -3,11 +3,11 @@
 
 hosts="/etc/hosts"
 hostsdir="/etc/hosts.d"
-urls="${hostsdir}/urls"
+config="/etc/hosts-gen"
 
 [ $(id -u ) -ne 0 ] && printf "Please run as root.\n" && exit 1
 [ ! -d "$hostsdir" ] && printf "%s not found.\n" "$hostsdir" && exit 1
-[ ! -f "$urls" ] && printf "%s not found.\n" "$urls" && exit 1
+[ ! -f "$config" ] && printf "%s not found.\n" "$config" && exit 1
 [ -n "$1" ] && startind="$1" || startind=0
 
 while IFS=' ' read -r url ident; do
@@ -18,12 +18,12 @@ while IFS=' ' read -r url ident; do
             startind=$((startind+1))
             curl "$url" > "${hostsdir}/${ind}-hosts${ident:+.$ident}" ;;
     esac
-done < "$urls"
+done < "$config"
 
 [ -e "$hosts" ] && cp "$hosts" "$hosts.bkp"
 truncate -s 0 "${hosts}"
 
-hostfiles="$(find "${hostsdir}" -type f | grep -v "^${urls}$" | sort)"
+hostfiles="$(find "${hostsdir}" -type f | sort)"
 for file in $hostfiles; do
 	cat "$file" >> "${hosts}"
 done
